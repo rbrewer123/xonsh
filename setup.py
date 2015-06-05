@@ -76,17 +76,20 @@ def main():
         platforms='Cross Platform',
         classifiers=['Programming Language :: Python :: 3'],
         packages=['xonsh'],
-        scripts=['scripts/xonsh'],
+        entry_points={
+            'console_scripts': [
+                'xonsh = xonsh.main:main'
+            ]
+        },
         cmdclass={'install': xinstall, 'sdist': xsdist},
         )
     if HAVE_SETUPTOOLS:
         skw['setup_requires'] = ['ply']
         skw['install_requires'] = ['ply']
-        skw['entry_points'] = {
-            'pygments.lexers': ['xonsh = xonsh.pyghooks:XonshLexer',
-                                'xonshcon = xonsh.pyghooks:XonshConsoleLexer',
-                                ],
-            }
+        skw['entry_points']['pygments.lexers'] = [
+            'xonsh = xonsh.pyghooks:XonshLexer',
+            'xonshcon = xonsh.pyghooks:XonshConsoleLexer',
+        ]
         skw['cmdclass']['develop'] = xdevelop
     setup(**skw)
 
